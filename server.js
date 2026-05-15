@@ -77,6 +77,8 @@ const FALLBACK_MODELS = [
 const SKIP_VALIDATION = process.env.SKIP_VALIDATION === 'true';
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
+const SKIP_VALIDATION_MODELS = ['deepseek-ai/deepseek-v4-pro'];
+
 async function sendDiscordAlert(invalidModels) {
   if (!DISCORD_WEBHOOK_URL) return;
   
@@ -113,6 +115,11 @@ async function validateModels() {
   const invalid = [];
 
   for (const [alias, nimId] of Object.entries(MODEL_MAPPING)) {
+    if (SKIP_VALIDATION_MODELS.includes(nimId)) {
+      console.log(`[VALIDATION] ⊘ ${alias} → ${nimId} (skipped — known slow)`);
+      continue;
+    }
+
     let succeeded = false;
 
     for (let attempt = 1; attempt <= 2; attempt++) {
@@ -163,7 +170,6 @@ async function validateModels() {
   }
 }
 
-// Replace your current validateModels() call with this:
 if (!SKIP_VALIDATION) {
   validateModels().catch(err => {
     console.error('[VALIDATION] Check failed:', err.message);
