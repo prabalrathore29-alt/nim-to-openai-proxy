@@ -74,8 +74,8 @@ const MODEL_MAPPING = {
 const FALLBACK_MODELS = [
   'mistralai/mistral-medium-3.5-128b',
   'mistralai/mistral-small-4-119b-2603',
-  'nvidia/llama-3.3-nemotron-super-49b-v1.5',
-  'google/gemma-4-31b-it'
+  
+  
 ];
 
 // You can delete this part from your fork if you don't trust it since it calls on a discord webhook.
